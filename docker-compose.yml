@@ -1,0 +1,30 @@
+services:
+  titan_ea_demo:
+    container_name: titan_ea_demo
+    # Prebuilt sometimes :-)
+    # image: jgruberf5/titan_ea_demo:latest
+    build: .
+    ports:
+      - 7860:7860
+    environment:
+      - OLLAMA_HOST=ollama
+      - CHROMADB_HOST=chromadb
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+    depends_on:
+      - chromadb
+      - ollama
+  chromadb:
+    container_name: chromadb
+    image: chromadb/chroma:latest
+    ports:
+      - 8000:8000
+    volumes:
+      - ./data/chroma:/chroma/chroma
+  ollama:
+    container_name: ollama
+    image: ollama/ollama:latest
+    tty: true
+    ports:
+      - 11434:11434
+    volumes:
+      - ./data/ollama:/root/.ollama
