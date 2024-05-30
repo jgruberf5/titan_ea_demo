@@ -3,7 +3,7 @@ Titan Project EA Real Word AI Application
 
 ![Titan Project Log](assets/Titan_Badge_128.png)
 
-## How Run
+## How to Run with Docker
 
 `docker compose up --build`
 
