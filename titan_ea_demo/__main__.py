@@ -22,11 +22,7 @@ topics_in_vector_store = ""
 def rag_clear_training():
     global topics_in_vector_store
     topics_in_vector_store = ""
-    delete_handle = Chroma(
-        client=config.CHROMADB_CLIENT,
-        collection_name="rag-chroma"
-    )
-    delete_handle.delete_collection()
+    utils.clear_rag_training()
     yield "Cleared past training data\n"
     
 

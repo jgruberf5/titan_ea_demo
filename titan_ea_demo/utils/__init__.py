@@ -55,6 +55,17 @@ def get_vectorstore_retriever():
     return vectorstore_retriever
 
 
+def clear_rag_training():
+    global vectorstore, vectorstore_retriever
+    delete_handle = Chroma(
+        client=config.CHROMADB_CLIENT,
+        collection_name="rag-chroma"
+    )
+    delete_handle.delete_collection()
+    vectorstore = None
+    vectorstore_retriever = None
+    
+
 __all__ = [
     "time_stamper",
     "url_splitter",
@@ -62,4 +73,5 @@ __all__ = [
     "ollama_pull_model",
     "get_vectorstore",
     "get_vectorstore_retriever",
+    "clear_rag_training"
 ]
