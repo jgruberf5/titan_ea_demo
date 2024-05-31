@@ -11,11 +11,11 @@ Titan Project EA Real Word AI Application
 
 `OLLAMA_HOST`=The FQDN or IP of the host running ollama server (default is 127.0.0.1)
 
-`OLLAMA_PORT`=The TCP port running ollama server (default is 11434)
+`OLLAMA_PORT`=The TCP listening port for the running ollama server (default is 11434)
 
 `CHROMADB_HOST`=The FQDN or IP of the host running chromadb server (default is 127.0.0.1)
 
-`CHROMADB_HOST`=The FQDN or IP of the host running chromadb server (default is 8000)
+`CHROMADB_PORT`=The TCP listening port for the chromadb server (default is 8000)
 
 `API_LISTENER_ADDRESS`=The IP the app API service should listen on (default is 0.0.0.0 - all IPs)
 
