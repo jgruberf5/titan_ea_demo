@@ -5,10 +5,14 @@ services:
     # image: jgruberf5/titan_ea_demo:latest
     build: .
     ports:
-      - 7860:7860
+      - 8100:8100
     environment:
       - OLLAMA_HOST=ollama
+      - OLLAMA_PORT=11434
       - CHROMADB_HOST=chromadb
+      - CHROMADB_PORT=8000
+      - API_LISTENER_ADDRESS=0.0.0.0
+      - API_LISTENER_PORT=8100
       - TAVILY_API_KEY=${TAVILY_API_KEY}
     depends_on:
       - chromadb
