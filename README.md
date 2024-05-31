@@ -9,9 +9,17 @@ Titan Project EA Real Word AI Application
 
 ## Environment Variables
 
-`OLLAMA_HOST`=The FQDN or IP of the host running ollama server
+`OLLAMA_HOST`=The FQDN or IP of the host running ollama server (default is 127.0.0.1)
 
-`CHROMADB_HOST`=The FQDN or IP of the host running chromadb server
+`OLLAMA_PORT`=The TCP port running ollama server (default is 11434)
+
+`CHROMADB_HOST`=The FQDN or IP of the host running chromadb server (default is 127.0.0.1)
+
+`CHROMADB_HOST`=The FQDN or IP of the host running chromadb server (default is 8000)
+
+`API_LISTENER_ADDRESS`=The IP the app API service should listen on (default is 0.0.0.0 - all IPs)
+
+`API_LISTENER_PORT`=The TCP port the app API service should listen on (default is 7860)
 
 `LANGCHAIN_TRACING_V2='true'` - Turns on langchain tracing
 
@@ -39,7 +47,7 @@ Within the project directory do this:
 
 The default user interface is exposed on port 7860.
 
-`http://localhost:7860`
+`http://[API_LISTENER_ADDRESS]:[API_LISTENER_PORT]`
 
 
 You can start by asking a question and hitting ENTER. Because there is not corpus of documents for RAG found,
@@ -62,4 +70,10 @@ Now you can go back to the *Ask Me a Question* tab and ask a question which shou
 If you want to know more about what all is implemented in our AI agent workflow, select the *About RAG* tab and read.
 
 ![Titan Project App - About RAG](assets/Titan_EA_Demo_RAG_About.png)
+
+## APP API Use
+
+The API use page is found at:
+
+`http://[API_LISTENER_ADDRESS]:[API_LISTENER_PORT]/?view=api`
 
