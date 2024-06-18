@@ -1,7 +1,7 @@
 from titan_ea_demo import chains
 from titan_ea_demo import utils
 
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 
 def retrieve(state):

@@ -12,4 +12,4 @@ ENV TAVILY_API_KEY=''
 
 EXPOSE 7860
 
-ENTRYPOINT ["python", "-m", "titan_ea_demo"]
+ENTRYPOINT ["python3", "-m", "titan_ea_demo"]

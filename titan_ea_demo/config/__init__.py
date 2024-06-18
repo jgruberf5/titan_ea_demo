@@ -5,7 +5,7 @@ import chromadb
 from dotenv import load_dotenv
 
 from langchain_community.chat_models import ChatOllama
-from langchain_community.embeddings import GPT4AllEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 load_dotenv()
 
@@ -59,7 +59,8 @@ API_LISTENER_PORT='7860'
 if not os.getenv("API_LISTENER_PORT") is None:
     API_LISTENER_PORT = os.getenv("API_LISTENER_PORT")
 
-EMBEDDINGS_MODEL = GPT4AllEmbeddings(model_name="all-MiniLM-L6-v2.gguf2.f16.gguf") 
+model_name = "sentence-transformers/all-MiniLM-L6-v2"
+EMBEDDINGS_MODEL = HuggingFaceEmbeddings(model_name=model_name)
 
 DEFAULT_URLS = [
     "https://clouddocs.f5.com/service-proxy/latest/intro.html",
@@ -72,7 +73,11 @@ DEFAULT_URLS = [
     "https://clouddocs.f5.com/cnfs/robin/latest/cnf-context-global.html",
 ]
 
-ABOUT_MARKDOWN_FILE = "assets/about_rag.md"
+WELCOME_MARKDOWN_FILE = "assets/welcome.md"
+SPK_SERVICE_SETUP_FILE = "assets/spk_setup.md"
+QUERY_MARKDOWN_FILE = "assets/query_doc.md"
+RAG_TRAINING_MARKDOWN_FILE = "assets/rag_training.md"
+ABOUT_RAG_MARKDOWN_FILE = "assets/about_rag.md"
 
 __all__ = [
     "LOCAL_LLM",

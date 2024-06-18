@@ -15,7 +15,8 @@ from typing import List
 from langchain_community.vectorstores import Chroma
 
 from langchain_community.document_loaders import WebBaseLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+# from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 topics_in_vector_store = ""
 
@@ -52,8 +53,6 @@ def rag_training(urls):
     output = f"{output}{utils.time_stamper(start_time)}"
     yield output
     start_time = time.time()
-    # use GPT4ALL model to create emeddings and add them to a local vector DB
-    # LLM
     output = f"{output}Creating vector DB from tokenized content\n"
     yield output
     output = f"{output}Deleting any past vector ids\n"
@@ -173,36 +172,60 @@ def main():
                 gr.Markdown(
                 """ 
                 # <span style="color:lightblue">Titan AI EA Demo Application</span>
-                This demonstration uses a local instance of *llama3* LLM and *GPT4All* embedding models to perform an adaptive RAG with corrective web search and self-corrective grading of the generative responses.         
+                This demonstration uses a locally hosted instance of *llama3* LLM and *HuggingFace* embedding models to perform an adaptive RAG with corrective web search and self-corrective grading of the generative responses.
+                A corrective RAG agent will route queries based on the best source of knowledge. A self-corrective RAG agent will grade its own responses, based on the best source of knowledge, and attempt to provide the best answer possible.         
                 """
                 )
+        with gr.Tab("Welcome to Our Demo App"):
+            with gr.Blocks() as welcome_blocks:
+                with open(config.WELCOME_MARKDOWN_FILE, 'r') as md_file:
+                    gr.Markdown(md_file.read())
+        with gr.Tab("BIG-IP Next SPK Service Setup"):
+            with gr.Blocks() as setup_blocks:
+                with open(config.SPK_SERVICE_SETUP_FILE, 'r') as setup_file:
+                    gr.Markdown(setup_file.read())
         with gr.Tab("Ask Me a Question"):
-            answer = gr.Textbox(
-                label="Answer:"
-            )
-            msg = gr.Textbox(
-                label="Question:"
-            )
-            clear = gr.ClearButton([msg, answer])
-            msg.submit(rag_inference, [msg, answer], [answer])
+            with gr.Blocks() as query_blocks:
+                with gr.Row():
+                    with gr.Column(scale=2, min_width=640):
+                        msg = gr.Textbox(
+                            label="Question:",
+                            placeholder="i.e. What is SPK?"
+                        )
+                        answer = gr.Textbox(
+                            label="Answer:",
+                            lines=20
+                        )
+                        clear = gr.ClearButton([msg, answer])
+                        msg.submit(rag_inference, [msg, answer], [answer])
+                    with gr.Column(scale=2):
+                        with open(config.QUERY_MARKDOWN_FILE, 'r') as query_file:
+                            gr.Markdown(query_file.read())
+                        
         with gr.Tab("RAG Corpus Training"):
-            urls = gr.Textbox(
-                label="URLs to Download Document Corpus",
-                lines=10,
-                max_lines=30,
-                value="\n".join(config.DEFAULT_URLS)
-            )
-            clear = gr.Button("Clear Corpus")
-            submit = gr.Button("Start Training")
-            out = gr.Textbox(
-                label="Training Console Output"
-            )
-            submit.click(rag_training, urls, out)
-            clear.click(rag_clear_training, None, out)
+            with gr.Blocks() as query_blocks:
+                with gr.Row():
+                    with gr.Column(scale=2, min_width=640):
+                        urls = gr.Textbox(
+                            label="URLs to Download Document Corpus",
+                            lines=10,
+                            max_lines=30,
+                            value="\n".join(config.DEFAULT_URLS)
+                        )
+                        clear = gr.Button("Clear Corpus")
+                        submit = gr.Button("Start Training")
+                        out = gr.Textbox(
+                            label="Training Console Output"
+                        )
+                        submit.click(rag_training, urls, out)
+                        clear.click(rag_clear_training, None, out)                    
+                    with gr.Column(scale=2):
+                        with open(config.RAG_TRAINING_MARKDOWN_FILE, 'r') as rag_file:
+                            gr.Markdown(rag_file.read())
             
-        with gr.Tab("About RAG"):
-            with open(config.ABOUT_MARKDOWN_FILE, 'r') as md_file:
-                gr.Markdown(md_file.read())
+        # with gr.Tab("About Our RAG Agent Application"):
+        #     with open(config.ABOUT_RAG_MARKDOWN_FILE, 'r') as md_file:
+        #         gr.Markdown(md_file.read())
                 
     demo_app.css="footer {visibility: hidden}"
     demo_app.launch(share=False, server_name=config.API_LISTENER_ADDRESS, server_port=int(config.API_LISTENER_PORT))

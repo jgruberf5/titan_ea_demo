@@ -3,7 +3,6 @@ import re
 import titan_ea_demo.config as config
 
 from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import GPT4AllEmbeddings
 
 from langchain_community.tools.tavily_search import TavilySearchResults
 
@@ -45,7 +44,7 @@ def get_vectorstore(text_tokens):
         client=config.CHROMADB_CLIENT,
         documents=text_tokens,
         collection_name="rag-chroma",
-        embedding=GPT4AllEmbeddings(model_name="all-MiniLM-L6-v2.gguf2.f16.gguf"),
+        embedding=config.EMBEDDINGS_MODEL,
     )
     vectorstore_retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     return vectorstore
